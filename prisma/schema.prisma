@@ -16,5 +16,5 @@ model User {
   password  String
   username  String  @unique
   firstName String?
-  LastName  String?
+  lastName  String?
 }
