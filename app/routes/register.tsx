@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import React from "react";
-import { ActionFunction, Form, json, LoaderFunction, useActionData } from "remix";
+import { ActionFunction, Form, json, LoaderFunction, MetaFunction, useActionData } from "remix";
 import * as Yup from "yup";
 import { db } from "~/db.server";
 import { noLoginRequired, register } from "~/utils/session.server";
@@ -17,6 +17,10 @@ const registerSchema = Yup.object({
   username: Yup.string().label("Username").trim().required(),
   email: Yup.string().label("Email").required().email(),
   password: Yup.string().label("Password").trim().required().min(8),
+});
+
+export const meta: MetaFunction = () => ({
+  title: "Register | Eventspace",
 });
 
 export const loader: LoaderFunction = async ({request}) => {

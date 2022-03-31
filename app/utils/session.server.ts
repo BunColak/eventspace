@@ -102,9 +102,7 @@ export async function requireUserId(
 }
 
 export const noLoginRequired = async (request: Request) => {
-    const userId = await getUserId(request);
-    console.log({userId});
-    
+    const userId = await getUserId(request);    
 
     if (userId) {
         throw redirect("/");

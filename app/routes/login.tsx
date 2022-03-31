@@ -5,6 +5,7 @@ import {
   Form,
   json,
   LoaderFunction,
+  MetaFunction,
   useActionData,
 } from "remix";
 import { object, string, ValidationError } from "yup";
@@ -21,10 +22,14 @@ const loginSchema = object({
   password: string().label("Password").required(),
 });
 
-export const loader: LoaderFunction = async ({ request }) => {  
-  // await noLoginRequired(request);
+export const meta: MetaFunction = () => ({
+  title: "Login | Eventspace",
+});
 
-  return null
+export const loader: LoaderFunction = async ({ request }) => {
+  await noLoginRequired(request);
+
+  return null;
 };
 
 export const action: ActionFunction = async ({ request }) => {
