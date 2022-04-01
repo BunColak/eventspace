@@ -11,9 +11,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 const Index = () => {
   return (
-    <Form method='post' action='/logout'>
+    <Form method="post" action="/logout">
       <Button type="submit" variant="contained" color="primary">
-        Hello there
+        Logout
       </Button>
     </Form>
   );

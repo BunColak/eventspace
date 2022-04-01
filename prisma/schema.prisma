@@ -17,4 +17,16 @@ model User {
   username  String  @unique
   firstName String?
   lastName  String?
+  Event     Event[]
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  startTime   DateTime
+  endTime     DateTime?
+  fullDay     Boolean   @default(false)
+  organizer   User      @relation(fields: [organizerId], references: [id])
+  organizerId Int
 }

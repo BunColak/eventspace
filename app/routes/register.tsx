@@ -1,6 +1,22 @@
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import { ActionFunction, Form, json, LoaderFunction, MetaFunction, useActionData } from "remix";
+import {
+  ActionFunction,
+  Form,
+  json,
+  Link,
+  LoaderFunction,
+  MetaFunction,
+  useActionData,
+} from "remix";
 import * as Yup from "yup";
 import { db } from "~/db.server";
 import { noLoginRequired, register } from "~/utils/session.server";
@@ -23,9 +39,9 @@ export const meta: MetaFunction = () => ({
   title: "Register | Eventspace",
 });
 
-export const loader: LoaderFunction = async ({request}) => {
-  return noLoginRequired(request)
-}
+export const loader: LoaderFunction = async ({ request }) => {
+  return noLoginRequired(request);
+};
 
 export const action: ActionFunction = async ({ context, params, request }) => {
   const formData = await request.formData();
@@ -77,44 +93,67 @@ export const action: ActionFunction = async ({ context, params, request }) => {
 
 const Register = () => {
   const formData = useActionData<ActionData>();
-  console.log({ formData });
 
   return (
-    <div>
-      <Form method="post" action="/register">
-        <Box>
-          <TextField
-            name="username"
-            placeholder="username"
-            error={!!formData?.fieldErrors?.username}
-            helperText={formData?.fieldErrors?.username}
-          />
-        </Box>
-        <Box sx={{ mt: 2 }}>
-          <TextField
-            required
-            type="email"
-            name="email"
-            placeholder="email"
-            error={!!formData?.fieldErrors?.email}
-            helperText={formData?.fieldErrors?.email}
-          />
-        </Box>
-        <Box sx={{ mt: 2 }}>
-          <TextField
-            required
-            type="password"
-            name="password"
-            placeholder="password"
-            error={!!formData?.fieldErrors?.password}
-            helperText={formData?.fieldErrors?.password}
-          />
-        </Box>
-        <Button sx={{ mt: 4 }} type="submit">
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 4, pb: 8, mt: 8 }}>
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
           Register
-        </Button>
-      </Form>
-    </div>
+        </Typography>
+        {formData?.error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {formData?.error}
+          </Alert>
+        )}
+        <Box sx={{ mt: 2, px: 12 }}>
+          <Form method="post" action="/login">
+            <Box>
+              <TextField
+                fullWidth
+                name="username"
+                label="Username"
+                error={!!formData?.fieldErrors?.username}
+                helperText={formData?.fieldErrors?.username}
+              />
+            </Box>
+            <Box sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                required
+                type="email"
+                name="email"
+                label="Email"
+                error={!!formData?.fieldErrors?.email}
+                helperText={formData?.fieldErrors?.email}
+              />
+            </Box>
+            <Box sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                required
+                type="password"
+                name="password"
+                label="Password"
+                error={!!formData?.fieldErrors?.password}
+                helperText={formData?.fieldErrors?.password}
+              />
+            </Box>
+            <Typography variant="caption">
+              Already a member? <Link to="/login">Click here to login.</Link>
+            </Typography>
+            <Button
+              sx={{ mt: 1 }}
+              variant="contained"
+              color="primary"
+              fullWidth
+              type="submit"
+            >
+              Register
+            </Button>
+          </Form>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 

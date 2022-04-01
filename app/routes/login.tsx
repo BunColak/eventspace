@@ -1,9 +1,18 @@
-import { Alert, Box, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import {
   ActionFunction,
   Form,
   json,
+  Link,
   LoaderFunction,
   MetaFunction,
   useActionData,
@@ -59,30 +68,54 @@ const Login = () => {
   const formData = useActionData<ActionData>();
 
   return (
-    <Form method="post" action="/login">
-      {formData?.error && <Alert severity="error">{formData?.error}</Alert>}
-      <Box>
-        <TextField
-          name="username"
-          placeholder="username"
-          error={!!formData?.fieldErrors?.username}
-          helperText={formData?.fieldErrors?.username}
-        />
-      </Box>
-      <Box sx={{ mt: 2 }}>
-        <TextField
-          required
-          type="password"
-          name="password"
-          placeholder="password"
-          error={!!formData?.fieldErrors?.password}
-          helperText={formData?.fieldErrors?.password}
-        />
-      </Box>
-      <Button sx={{ mt: 4 }} type="submit">
-        Login
-      </Button>
-    </Form>
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 4, pb: 8, mt: 8 }}>
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
+          Login
+        </Typography>
+        {formData?.error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {formData?.error}
+          </Alert>
+        )}
+        <Box sx={{ mt: 2, px: 12 }}>
+          <Form method="post" action="/login">
+            <Box>
+              <TextField
+                fullWidth
+                name="username"
+                label="Username"
+                error={!!formData?.fieldErrors?.username}
+                helperText={formData?.fieldErrors?.username}
+              />
+            </Box>
+            <Box sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                required
+                type="password"
+                name="password"
+                label="Password"
+                error={!!formData?.fieldErrors?.password}
+                helperText={formData?.fieldErrors?.password}
+              />
+            </Box>
+            <Typography variant="caption">
+              Not a member? <Link to="/register">Click here to register.</Link>
+            </Typography>
+            <Button
+              sx={{ mt: 1 }}
+              variant="contained"
+              color="primary"
+              fullWidth
+              type="submit"
+            >
+              Login
+            </Button>
+          </Form>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
