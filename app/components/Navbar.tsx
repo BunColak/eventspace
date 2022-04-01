@@ -10,13 +10,14 @@ import {
   Button,
 } from "@mui/material";
 import React from "react";
-import { Link } from "remix";
+import { Link, useNavigate } from "remix";
 
 type NavbarProps = {
   userId: number | null;
 };
 
 const Navbar: React.FC<NavbarProps> = ({ userId }) => {
+  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -74,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ userId }) => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={() => navigate('/logout')}>Logout</MenuItem>
             </Menu>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction, redirect } from "remix";
+import { ActionFunction, LoaderFunction } from "remix";
 import { logout } from "../utils/session.server";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -8,5 +8,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return redirect("/");
+  await logout(request)
+  return null
 };
