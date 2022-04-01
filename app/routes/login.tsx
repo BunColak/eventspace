@@ -23,8 +23,8 @@ import {
   login,
   noLoginRequired
 } from "~/utils/session.server";
+import { FormActionData } from "~/utils/types";
 import { handleValidationErrors } from "~/utils/validation";
-import { ActionData } from "./register";
 
 const loginSchema = object({
   username: string().label("Username").required(),
@@ -61,7 +61,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 const Login = () => {
-  const formData = useActionData<ActionData>();
+  const formData = useActionData<FormActionData>();
 
   return (
     <Container maxWidth="sm">

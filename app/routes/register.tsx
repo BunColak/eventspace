@@ -21,14 +21,8 @@ import {
 import * as Yup from "yup";
 import { db } from "~/db.server";
 import { noLoginRequired, register } from "~/utils/session.server";
+import { FormActionData } from "~/utils/types";
 import { formatFieldErrors } from "~/utils/validation";
-
-export type ActionData = {
-  error?: string;
-  fieldErrors?: {
-    [key: string]: string;
-  };
-};
 
 const registerSchema = Yup.object({
   username: Yup.string().label("Username").trim().required(),
@@ -97,7 +91,7 @@ export const action: ActionFunction = async ({ context, params, request }) => {
 };
 
 const Register = () => {
-  const formData = useActionData<ActionData>();
+  const formData = useActionData<FormActionData>();
 
   return (
     <Container maxWidth="sm">
