@@ -106,7 +106,7 @@ const Register = () => {
           </Alert>
         )}
         <Box sx={{ mt: 2, px: 12 }}>
-          <Form method="post" action="/login">
+          <Form method="post" action="/register">
             <Box>
               <TextField
                 fullWidth
