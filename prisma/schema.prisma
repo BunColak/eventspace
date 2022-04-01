@@ -24,8 +24,8 @@ model Event {
   id          Int       @id @default(autoincrement())
   title       String
   description String
-  startTime   DateTime
-  endTime     DateTime?
+  startDate   DateTime
+  endDate     DateTime?
   fullDay     Boolean   @default(false)
   organizer   User      @relation(fields: [organizerId], references: [id])
   organizerId Int

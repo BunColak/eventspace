@@ -3,17 +3,23 @@ import {
   Links,
   LinksFunction,
   LiveReload,
+  LoaderFunction,
   Meta,
   MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "remix";
 import { withEmotionCache } from "@emotion/react";
-import { CssBaseline, unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/material";
+import {
+  CssBaseline,
+  unstable_useEnhancedEffect as useEnhancedEffect,
+} from "@mui/material";
 import ClientStyleContext from "./utils/ClientStyleContext";
 import theme from "./theme";
 import Navbar from "./components/Navbar";
+import { getUserId } from "./utils/session.server";
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -31,8 +37,17 @@ export const meta: MetaFunction = () => ({
   "emotion-insertion-point": "emotion-insertion-point",
 });
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request);
+
+  return {
+    userId,
+  };
+};
+
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
+    const {userId} = useLoaderData()
     const clientStyleData = React.useContext(ClientStyleContext);
 
     // Only executed on client
@@ -58,7 +73,7 @@ const Document = withEmotionCache(
         </head>
         <body>
           <CssBaseline />
-          <Navbar />
+          <Navbar userId={userId} />
           <Outlet />
 
           <ScrollRestoration />

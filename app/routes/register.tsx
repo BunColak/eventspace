@@ -16,6 +16,7 @@ import {
   LoaderFunction,
   MetaFunction,
   useActionData,
+  redirect,
 } from "remix";
 import * as Yup from "yup";
 import { db } from "~/db.server";
@@ -81,6 +82,10 @@ export const action: ActionFunction = async ({ context, params, request }) => {
       validatedValues.email,
       validatedValues.password
     );
+
+    if (user) {
+      return redirect("/login");
+    }
     return user;
   } catch (error) {
     if (error instanceof Yup.ValidationError) {

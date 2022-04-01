@@ -5,7 +5,7 @@ import {
   Container,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import React from "react";
 import {
@@ -15,15 +15,15 @@ import {
   Link,
   LoaderFunction,
   MetaFunction,
-  useActionData,
+  useActionData
 } from "remix";
-import { object, string, ValidationError } from "yup";
+import { object, string } from "yup";
 import {
   createUserSession,
   login,
-  noLoginRequired,
+  noLoginRequired
 } from "~/utils/session.server";
-import { formatFieldErrors } from "~/utils/validation";
+import { handleValidationErrors } from "~/utils/validation";
 import { ActionData } from "./register";
 
 const loginSchema = object({
@@ -46,22 +46,18 @@ export const action: ActionFunction = async ({ request }) => {
   const username = formData.get("username");
   const password = formData.get("password");
 
-  try {
-    const validatedValues = await loginSchema.validate(
-      { username, password },
-      { abortEarly: false }
-    );
-    const user = await login(validatedValues);
-    if (!user) {
-      return json({ error: "Username or password wrong" }, { status: 400 });
-    }
-    return createUserSession(user.id, "/");
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      return json({ fieldErrors: formatFieldErrors(error) }, { status: 400 });
-    }
-    return json({ error: "Unknown Error" }, { status: 500 });
-  }
+  const response = loginSchema
+    .validate({ username, password }, { abortEarly: false })
+    .then(async (validatedValues) => {
+      const user = await login(validatedValues);
+      if (!user) {
+        return json({ error: "Username or password wrong" }, { status: 400 });
+      }
+      return createUserSession(user.id, "/");
+    })
+    .catch(handleValidationErrors);
+
+  return response;
 };
 
 const Login = () => {

@@ -7,11 +7,16 @@ import {
   Toolbar,
   Typography,
   Link as MuiLink,
+  Button,
 } from "@mui/material";
 import React from "react";
 import { Link } from "remix";
 
-const Navbar = () => {
+type NavbarProps = {
+  userId: number | null;
+};
+
+const Navbar: React.FC<NavbarProps> = ({ userId }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,8 +39,15 @@ const Navbar = () => {
             Events
           </MuiLink>
         </Typography>
-        {true && (
+        {userId && (
           <div>
+            <Button
+              sx={{ color: "white" }}
+              component={Link}
+              to="/events/create"
+            >
+              Create Event
+            </Button>
             <IconButton
               size="large"
               aria-label="account of current user"
